@@ -64,10 +64,10 @@ const MeetingRoom = () => {
         </div>
       </div>
       {/* video layout and call controls */}
-      <div className="fixed bottom-0 flex w-full items-center justify-center gap-5">
+      <div className="fixed bottom-0 flex w-full items-center justify-center gap-2 gap-l-5 mob-call-control ded">
         <CallControls onLeave={() => router.push(`/`)} />
 
-        <DropdownMenu>
+        {/* <DropdownMenu>
           <div className="flex items-center">
             <DropdownMenuTrigger className="cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]  ">
               <LayoutList size={20} className="text-white" />
@@ -87,14 +87,16 @@ const MeetingRoom = () => {
               </div>
             ))}
           </DropdownMenuContent>
-        </DropdownMenu>
-        <CallStatsButton />
+        </DropdownMenu> */}
+        {/* <CallStatsButton /> */}
+        <div className="flex items-center gap-2">
         <button onClick={() => setShowParticipants((prev) => !prev)}>
           <div className=" cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]  ">
             <Users size={20} className="text-white" />
           </div>
         </button>
         {!isPersonalRoom && <EndCallButton />}
+        </div>
       </div>
     </section>
   );
