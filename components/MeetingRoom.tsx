@@ -150,19 +150,7 @@ const MeetingRoom = () => {
   // Toggle chat visibility
   const toggleChat = () => setShowChat((prev) => !prev);
 
-  // Mute all participants
-  const muteAll = () => {
-    // Logic to mute all participants
-    console.log('Muting all participants');
-    // Implement API call to mute all users' microphones
-  };
 
-  // Turn off video for all participants
-  const turnOffVideoForAll = () => {
-    // Logic to turn off video for all participants
-    console.log('Turning off video for all participants');
-    // Implement API call to turn off video for all users
-  };
 
   // Call layout
   const CallLayout = () => {
