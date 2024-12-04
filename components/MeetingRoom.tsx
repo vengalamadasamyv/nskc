@@ -81,14 +81,15 @@ import { useState, useEffect } from 'react';
 import {
   CallControls,
   CallParticipantsList,
+  PaginatedGridLayout,
   CallingState,
   SpeakerLayout,
   useCallStateHooks,
 } from '@stream-io/video-react-sdk';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Users } from 'lucide-react';
-import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, set, onChildAdded } from 'firebase/database';
+import { initializeApp } from '@firebase/app';
+import { getDatabase, ref, set, onChildAdded } from '@firebase/database';
 
 import Loader from './Loader';
 import EndCallButton from './EndCallButton';
