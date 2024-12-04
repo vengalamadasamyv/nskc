@@ -89,7 +89,7 @@ import {
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Users } from 'lucide-react';
 import { initializeApp } from '@firebase/app';
-import { getDatabase, ref, set, onChildAdded } from '@firebase/database';
+import { getDatabase, ref, push, set, onChildAdded } from '@firebase/database';
 
 import Loader from './Loader';
 import EndCallButton from './EndCallButton';
@@ -125,32 +125,35 @@ const MeetingRoom = () => {
 
   const callingState = useCallCallingState();
 
-
   // Fetch messages from Firebase
   const fetchMessages = () => {
     const messagesRef = ref(database, 'messages');
     onChildAdded(messagesRef, (snapshot) => {
       const message = snapshot.val().message;
-      setMessages((prevMessages) => [...prevMessages, message]);
+      setMessages((prevMessages) => [...prevMessages, message]); // Append new message to state
     });
   };
 
   // Send a message to Firebase
-  const sendMessage = () => {
-    if (newMessage.trim() !== '') {
-      const messagesRef = ref(database, 'messages');
-      set(messagesRef, {
-        message: newMessage,
-        timestamp: Date.now(),
-      });
-      setNewMessage('');
-    }
-  };
+const sendMessage = () => {
+  if (newMessage.trim() !== '') {
+    const messagesRef = ref(database, 'messages');
+    const newMessageRef = push(messagesRef);  // Create a new child node with a unique key using push()
+
+    // Now use `set()` to write the message to the newly created reference
+    set(newMessageRef, {
+      message: newMessage,
+      timestamp: Date.now(),
+    }).then(() => {
+      setNewMessage('');  // Reset input field after sending the message
+    }).catch((error) => {
+      console.error('Error sending message:', error);
+    });
+  }
+};
 
   // Toggle chat visibility
   const toggleChat = () => setShowChat((prev) => !prev);
-
-
 
   // Call layout
   const CallLayout = () => {
@@ -220,7 +223,6 @@ const MeetingRoom = () => {
         </div>
       )}
 
-
       {/* Video layout and call controls */}
       <div className="fixed bottom-0 flex w-full items-center justify-center gap-2 gap-l-5 mob-call-control flex-col md:flex-row">
         <CallControls onLeave={() => router.push(`/`)} />
@@ -238,6 +240,8 @@ const MeetingRoom = () => {
 };
 
 export default MeetingRoom;
+
+
 
 
 
