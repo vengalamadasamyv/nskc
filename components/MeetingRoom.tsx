@@ -130,12 +130,6 @@ const MeetingRoom = () => {
   const creatorId = 'creator-user-id'; // Replace with actual logic for identifying creator
   const currentUserId = 'current-user-id'; // Replace with actual logic for current user's ID
 
-  // Check if the current user is the creator
-  useEffect(() => {
-    if (currentUserId === creatorId) {
-      setIsCreator(true);
-    }
-  }, [currentUserId]);
 
   // Fetch messages from Firebase
   const fetchMessages = () => {
