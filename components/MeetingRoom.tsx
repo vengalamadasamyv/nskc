@@ -87,8 +87,8 @@ import {
 } from '@stream-io/video-react-sdk';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Users } from 'lucide-react';
-import firebase from 'firebase/app';
-import 'firebase/database';
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, set, onChildAdded } from 'firebase/database';
 
 import Loader from './Loader';
 import EndCallButton from './EndCallButton';
@@ -107,12 +107,9 @@ const firebaseConfig = {
   appId: "1:507362536093:web:f87b0f6eafb9ef69878274"
 };
 
-// Initialize Firebase
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-} else {
-  firebase.app(); // Use the default app
-}
+// Initialize Firebase (Firebase 9+)
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
 const MeetingRoom = () => {
   const searchParams = useSearchParams();
@@ -141,7 +138,8 @@ const MeetingRoom = () => {
 
   // Fetch messages from Firebase
   const fetchMessages = () => {
-    firebase.database().ref('messages').on('child_added', (snapshot) => {
+    const messagesRef = ref(database, 'messages');
+    onChildAdded(messagesRef, (snapshot) => {
       const message = snapshot.val().message;
       setMessages((prevMessages) => [...prevMessages, message]);
     });
@@ -150,7 +148,8 @@ const MeetingRoom = () => {
   // Send a message to Firebase
   const sendMessage = () => {
     if (newMessage.trim() !== '') {
-      firebase.database().ref('messages').push({
+      const messagesRef = ref(database, 'messages');
+      set(messagesRef, {
         message: newMessage,
         timestamp: Date.now(),
       });
@@ -278,5 +277,6 @@ const MeetingRoom = () => {
 };
 
 export default MeetingRoom;
+
 
 
