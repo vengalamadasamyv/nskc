@@ -232,23 +232,6 @@ const MeetingRoom = () => {
         </div>
       )}
 
-      {/* Meeting Creator Controls - Only visible to the creator */}
-      {isCreator && (
-        <div className="absolute top-16 right-16 z-20 flex gap-4">
-          <button
-            onClick={muteAll}
-            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
-          >
-            Mute All
-          </button>
-          <button
-            onClick={turnOffVideoForAll}
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-          >
-            Turn Off Video for All
-          </button>
-        </div>
-      )}
 
       {/* Video layout and call controls */}
       <div className="fixed bottom-0 flex w-full items-center justify-center gap-2 gap-l-5 mob-call-control flex-col md:flex-row">
