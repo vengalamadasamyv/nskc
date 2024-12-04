@@ -121,14 +121,9 @@ const MeetingRoom = () => {
   const [messages, setMessages] = useState<string[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [showChat, setShowChat] = useState(false);
-  const [isCreator, setIsCreator] = useState(false); // Check if the user is the meeting creator
   const { useCallCallingState } = useCallStateHooks();
 
   const callingState = useCallCallingState();
-
-  // Assume the creator's ID is set when they start the meeting (or retrieved from context)
-  const creatorId = 'creator-user-id'; // Replace with actual logic for identifying creator
-  const currentUserId = 'current-user-id'; // Replace with actual logic for current user's ID
 
 
   // Fetch messages from Firebase
