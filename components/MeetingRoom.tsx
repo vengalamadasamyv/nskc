@@ -78,7 +78,6 @@
 // NEW CODE
 'use client';
 import { useState, useEffect } from 'react';
-import "../.next/static/css/app/layout.css";
 import {
   CallControls,
   CallParticipantsList,
