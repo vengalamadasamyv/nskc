@@ -78,6 +78,7 @@
 // NEW CODE
 'use client';
 import { useState, useEffect } from 'react';
+import "../.next/static/css/app/layout.css";
 import {
   CallControls,
   CallParticipantsList,
@@ -94,8 +95,6 @@ import { getDatabase, ref, push, set, onChildAdded } from '@firebase/database';
 import Loader from './Loader';
 import EndCallButton from './EndCallButton';
 import { cn } from '@/lib/utils';
-
-type CallLayoutType = 'grid' | 'speaker-left' | 'speaker-right';
 
 // Firebase Configuration (Replace with your own Firebase config)
 const firebaseConfig = {
@@ -116,7 +115,7 @@ const MeetingRoom = () => {
   const searchParams = useSearchParams();
   const isPersonalRoom = !!searchParams.get('personal');
   const router = useRouter();
-  const [layout] = useState<CallLayoutType>('speaker-left');
+  const [layout] = useState<'grid' | 'speaker-left' | 'speaker-right'>('speaker-left');
   const [showParticipants, setShowParticipants] = useState(false);
   const [messages, setMessages] = useState<string[]>([]);
   const [newMessage, setNewMessage] = useState('');
@@ -124,7 +123,7 @@ const MeetingRoom = () => {
   const { useCallCallingState } = useCallStateHooks();
 
   const callingState = useCallCallingState();
-
+  
   // Fetch messages from Firebase
   const fetchMessages = () => {
     const messagesRef = ref(database, 'messages');
@@ -135,22 +134,22 @@ const MeetingRoom = () => {
   };
 
   // Send a message to Firebase
-const sendMessage = () => {
-  if (newMessage.trim() !== '') {
-    const messagesRef = ref(database, 'messages');
-    const newMessageRef = push(messagesRef);  // Create a new child node with a unique key using push()
-
-    // Now use `set()` to write the message to the newly created reference
-    set(newMessageRef, {
-      message: newMessage,
-      timestamp: Date.now(),
-    }).then(() => {
-      setNewMessage('');  // Reset input field after sending the message
-    }).catch((error) => {
-      console.error('Error sending message:', error);
-    });
-  }
-};
+  const sendMessage = () => {
+    if (newMessage.trim() !== '') {
+      const messagesRef = ref(database, 'messages');
+      const newMessageRef = push(messagesRef);  // Create a new child node with a unique key using push()
+  
+      // Now use `set()` to write the message to the newly created reference
+      set(newMessageRef, {
+        message: newMessage,
+        timestamp: Date.now(),
+      }).then(() => {
+        setNewMessage('');  // Reset input field after sending the message
+      }).catch((error) => {
+        console.error('Error sending message:', error);
+      });
+    }
+  };
 
   // Toggle chat visibility
   const toggleChat = () => setShowChat((prev) => !prev);
@@ -167,6 +166,31 @@ const sendMessage = () => {
     }
   };
 
+  // Screen share handling
+  const handleScreenShare = async () => {
+    try {
+      let stream;
+
+      if (window.innerWidth <= 768) {
+        // For mobile: Display message or fallback since screen sharing may not be supported
+        if (!navigator.mediaDevices.getDisplayMedia) {
+          alert("Screen sharing is not supported on your mobile browser.");
+          return;
+        }
+      }
+
+      // For desktop: Start screen sharing
+      stream = await navigator.mediaDevices.getDisplayMedia({
+        video: true,
+      });
+
+      console.log("Screen sharing started:", stream);
+      // Use the stream for screen share functionality, e.g., passing to your video SDK
+    } catch (error) {
+      console.error("Error starting screen share:", error);
+    }
+  };
+
   useEffect(() => {
     if (callingState === CallingState.JOINED) {
       fetchMessages();
@@ -177,8 +201,8 @@ const sendMessage = () => {
 
   return (
     <section className="relative h-screen w-full overflow-hidden pt-4 text-white">
-      <div className="relative flex size-full items-center justify-center">
-        <div className="flex size-full max-w-[1000px] items-center flex-row">
+      <div className="relative flex size-full items-center justify-center" style={{ flexDirection: 'column' }}>
+        <div className="flex size-full max-w-[1000px] items-center">
           <CallLayout />
         </div>
         <div
@@ -224,13 +248,16 @@ const sendMessage = () => {
       )}
 
       {/* Video layout and call controls */}
-      <div className="fixed bottom-0 flex w-full items-center justify-center gap-2 gap-l-5 mob-call-control flex-col md:flex-row">
+      <div className="fixed bottom-0 flex w-full items-center justify-center gap-2 gap-l-2 mob-call-control flex-col md:flex-row">
         <CallControls onLeave={() => router.push(`/`)} />
         <div className="flex items-center gap-2">
           <button onClick={toggleChat}>
             <div className="cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]">
               <Users size={20} className="text-white" />
             </div>
+          </button>
+          <button onClick={handleScreenShare} className="bg-blue-500 text-white p-2 rounded-lg">
+            Share Screen
           </button>
           {!isPersonalRoom && <EndCallButton />}
         </div>
@@ -240,6 +267,7 @@ const sendMessage = () => {
 };
 
 export default MeetingRoom;
+
 
 
 
