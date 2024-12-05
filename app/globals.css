@@ -42,6 +42,10 @@
   height: 40px;
 }
 
+.str-video__speaker-layout__wrapper{
+  display: unset !important;
+}
+
 .glassmorphism {
   background: rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(4px);
