@@ -192,7 +192,7 @@ const sendMessage = () => {
 
       {/* Chat window */}
       {showChat && (
-        <div className="fixed bottom-16 left-0 right-0 bg-black bg-opacity-70 p-4 rounded-lg z-10">
+        <div className="fixed bottom-16 w-25 right-0 bg-black bg-opacity-70 p-4 rounded-lg z-10">
           <div className="text-white">
             <div className="mb-4">
               <h2 className="text-xl font-bold">Chat</h2>
