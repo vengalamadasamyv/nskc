@@ -200,8 +200,8 @@ const MeetingRoom = () => {
 
   return (
     <section className="relative h-screen w-full overflow-hidden pt-4 text-white">
-      <div className="relative flex size-full items-center justify-center" style={{ flexDirection: 'column' }}>
-        <div className="flex size-full max-w-[1000px] items-center">
+      <div className="relative flex flex-col items-center justify-center">
+        <div className="flex size-full max-w-[1000px] items-center justify-center">
           <CallLayout />
         </div>
         <div
@@ -215,7 +215,7 @@ const MeetingRoom = () => {
 
       {/* Chat window */}
       {showChat && (
-        <div className="fixed bottom-16 w-25 right-0 bg-black bg-opacity-70 p-4 rounded-lg z-10">
+        <div className="fixed bottom-16 w-full md:w-1/3 right-0 bg-black bg-opacity-70 p-4 rounded-lg z-10">
           <div className="text-white">
             <div className="mb-4">
               <h2 className="text-xl font-bold">Chat</h2>
