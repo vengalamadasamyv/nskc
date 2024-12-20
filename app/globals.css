@@ -20,6 +20,7 @@
 
 .str-video__participant-details {
   color: white;
+  display: none !important;
 }
 
 .str-video__menu-container {
@@ -113,4 +114,14 @@
     animation-timing-function: ease-in;
     width: 100%;
   }
+}
+
+@media screen and (min-width:320px) and (max-width:768px){
+  .str-video__speaker-layout--variant-right{
+    flex-direction: column !important;
+  }
+  .str-video__call-controls{
+    gap:3px !important;
+  }
+  
 }
