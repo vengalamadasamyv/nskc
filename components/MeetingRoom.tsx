@@ -33,9 +33,9 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
 const MeetingRoom = () => {
-  const searchParams = useSearchParams();
-  const isPersonalRoom = !!searchParams.get('personal');
-  const [layout, setLayout] = useState<'grid' | 'speaker-left' | 'speaker-right'>('speaker-left');
+  // const searchParams = useSearchParams();
+  // const isPersonalRoom = !!searchParams.get('personal');
+  // const [layout, setLayout] = useState<'grid' | 'speaker-left' | 'speaker-right'>('speaker-left');
   const [showParticipants, setShowParticipants] = useState(false);
   const [messages, setMessages] = useState<string[]>([]);
   const [newMessage, setNewMessage] = useState('');
