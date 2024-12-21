@@ -4,11 +4,12 @@ import {
   CallControls,
   CallParticipantsList,
   PaginatedGridLayout,
+  layout,
   SpeakerLayout,
   CallingState,
   useCallStateHooks,
 } from '@stream-io/video-react-sdk';
-import { useSearchParams } from 'next/navigation';
+// import { useSearchParams } from 'next/navigation';
 import { Users } from 'lucide-react';
 import { initializeApp } from '@firebase/app';
 import { getDatabase, ref, push, set, onChildAdded } from '@firebase/database';
